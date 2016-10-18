@@ -8,13 +8,10 @@
 #ifndef _DICT_H
 #define _DICT_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <strings.h>
+/* type definition for structure to hold word lists */
+typedef struct _lists_array Lists_Array;
 
-/* type definition for structure to hold list item */
-typedef struct _Dict Dict;
+Lists_Array *init_lists_array();
+void free_lists_array(Lists_Array *l, void (*free_item)(void *this));
 
-Dict *init_dict(int list_count);
-void free_dict(Dict *dict);
 #endif

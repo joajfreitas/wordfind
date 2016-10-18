@@ -3,57 +3,51 @@
  * File Name: dict.c
  *
  * COMMENTS:
- * Implements an array of lists to store words read from a file
- * The length of the words in a list is equal to the index which points to
- * that list
+ * Implements an array of lists that store words read from a file
+ * The number of the words in a list is the index which points to that list
  *****************************************************************************/
 
 #include <stdlib.h>
-#include "dict.h"
-#include "list.h"
+#include "const.h"
 #include "err.h"
+#include "lists_array.h"
+#include "list.h"
 
-/* pointer struct */
-struct _Dict {
-	List **lists;
-	int *node_count;
-	int array_size;
+
+struct _lists_array {
+	List **lists; /* MAX_WORD_SIZE lists */
+	int *list_sizes[MAX_WORD_SIZE];
 };
 
-Dict *init_dict(int list_count)
+Lists_Array *init_lists_array()
 {
 	int i;
 
-	Dict *dict = (Dict *) malloc(sizeof(Dict));
-	if (dict == NULL)
-		err("Impossivel alocar memoria para struct dicts");
-	
-	dict->array_size = list_count;
-	dict->node_count = (int *) malloc(list_count * sizeof(int));
+	Lists_Array *l = (Lists_Array *) malloc(sizeof(Lists_Array));
+	if (l == NULL)
+		err("Impossivel alocar memoria para Array de Listas");
 
-	dict->lists = (List **) malloc(list_count * sizeof(List*));
-	if (dict->lists == NULL)
-		err("Impossivel alocar memoria para array de listas");
-	for (i=0; i<list_count; i++) {
-		dict->lists[i] = init_list();
-		dict->node_count[i] = 0;
+	l->lists = (List **) malloc(MAX_WORD_SIZE * sizeof(List *));
+	if (l->lists == NULL)
+		err("Impossivel alocar memoria para Lista de Listas de palavras");
 
+	for (i = 0; i < MAX_WORD_SIZE; i++) {
+		l->lists[i] = init_list();
+		l->list_sizes[i] = 0;
 	}
 
-	return dict;
+	return l;
 }
 
-void free_item(void *this) {
-	return;
-}
-void free_dict(Dict *dict)
+void free_lists_array(Lists_Array *l, void (*free_item)(void *this))
 {
-	int i=0;
-	for (i = 0; i < dict->array_size; i++)
-		free_list(dict->lists[i], free_item);
-	free(dict->lists);
-	free(dict->node_count);
-	free(dict);
+	int i;
+
+	for (i = 0; i < MAX_WORD_SIZE; i++)
+		free_list(l->lists[i], free_item);
+
+	free(l->lists);
+	free(l);
+
 	return;
 }
-

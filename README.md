@@ -8,14 +8,13 @@
 
 	ler dict
 		ler palavras
-		ver tamanho
-		escoher pos no array
-		prepend na lista
-		converter para array ordenado
+		i = strlen(palavra)
+		prepend em Lists_Array->lists[i]
+		incrementar Lists_Array->list_sizes[i]
 
-	converter para array ordenado
+	converter cada lista para array ordenado
 		converter para array
-		quicksort || mergesort || heapsort
+		*sort
 
 	ler pal
 		ler problema

@@ -32,7 +32,7 @@ struct _List {
  *
  *****************************************************************************/
 
-List *init_list(void) 
+List *init_list(void)
 {
 	List *head = (List *) malloc(sizeof(List));
 	head->next = NULL;
@@ -60,7 +60,7 @@ void prepend(List* head, void * payload) {
 		new_node->next = head->next;
 		head->next = new_node;
 	}
-	else 
+	else
 		err("Impossivel obter novo nó");
 	return;
 }
@@ -114,7 +114,7 @@ int get_node_count(List *head) {
 	int count = 0;
 	aux = head->next;
 
-	for(aux = head; aux != NULL; aux = aux->next)
+	for (aux = head; aux != NULL; aux = aux->next)
 		count++;
 
 	return count;
@@ -131,10 +131,10 @@ int get_node_count(List *head) {
  *
  *****************************************************************************/
 
-void free_list(List *lp, void free_item(void *)) {
+void free_list(List *lp, void (*free_item)(void *this)) {
 	List *aux, *newhead;  /* auxiliar pointers to travel through the list */
 
-	for(aux = lp; aux != NULL; aux = newhead) {
+	for (aux = lp; aux != NULL; aux = newhead) {
 		newhead = aux->next;
 		free_item(aux->payload);
 		free(aux);
