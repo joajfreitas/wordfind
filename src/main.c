@@ -41,5 +41,7 @@ void read_dict(char *filename, Dict *dict)
 		(*numPalavras)++;
 	}*/
 
+	fclose(fdict);
+
 
 }

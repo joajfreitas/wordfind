@@ -51,6 +51,7 @@ void free_dict(Dict *dict)
 	int i=0;
 	for (i = 0; i < dict->array_size; i++)
 		free_list(dict->lists[i], free_item);
+	free(dict->lists);
 	free(dict->node_count);
 	free(dict);
 	return;
