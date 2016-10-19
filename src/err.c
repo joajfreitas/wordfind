@@ -12,3 +12,13 @@ void err(char *error_message) {
 	exit(EXIT_FAILURE);
 	return;
 }
+
+void emalloc(size_t size)
+{
+    void *p = malloc(size);
+    if (p==NULL) {
+        puts("Erro: impossivel alocar memoria.");
+        exit(EXIT_FAILURE);
+    }
+    return p;
+}
