@@ -11,13 +11,12 @@ void usage(char *nomeProg) {
 
 void read_dict(char *filename, Lists_Array *l)
 {
-	FILE *fdict = fopen(filename, "r");
-
-	/* TODO: ler palavras
+	FILE *fdict = efopen(filename, "r");
+	char word[128];
+	
 	while(fscanf(fdict, "%s", word) == 1){
-		write_to_dict(dict, word);
-		(*numPalavras)++;
-	}*/
+		write_to_dict(l, word);
+	}
 
 	fclose(fdict);
 }
@@ -36,6 +35,8 @@ int main(int argc, char *argv[])
 
 	l = init_lists_array(MAX_WORD_SIZE);
 	read_dict(argv[1], l);
+	print_dict(l);
+
 	/*
 	read_pal();
 	write_out();

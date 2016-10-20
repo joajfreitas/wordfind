@@ -16,10 +16,9 @@ typedef struct _List List;
 
 List *init_list(void);
 void prepend(List *head, void *payload);
-void *get_item(List *p);
+void *get_payload(List *p);
 List *get_next(List *p);
-
 int get_node_count(List *head);
 void free_list(List *lp, void (*free_item)(void *this));
-
+void print_payload(List *node);
 #endif

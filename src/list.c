@@ -13,14 +13,11 @@
 #include "list.h"
 #include "err.h"
 
-
 /* Linked list  */
 struct _List {
 	void *payload;
 	struct _List *next;
-};
-
-
+} _List;
 /******************************************************************************
  * ini_list ()
  *
@@ -54,11 +51,13 @@ List *init_list(void)
 void prepend(List* head, void * payload) {
 	List *new_node;
 
-	new_node = (List*) malloc(sizeof(List));
+	new_node = (List*) emalloc(sizeof(List));
 	if(new_node != NULL) {
 		new_node->payload = payload;
 		new_node->next = head->next;
 		head->next = new_node;
+		printf("Aloquei um no\n");
+		printf("que diz: %s\n", (char *) new_node->payload);
 	}
 	else
 		err("Impossivel obter novo nó");
@@ -77,7 +76,7 @@ void prepend(List* head, void * payload) {
  *
  *****************************************************************************/
 
-void *get_item(List *p) {
+void *get_payload(List *p) {
 	return p->payload;
 }
 
@@ -141,4 +140,10 @@ void free_list(List *lp, void (*free_item)(void *this)) {
 	}
 
 	return;
+}
+
+void print_payload(List *node)
+{
+	if (node != NULL && ((char *) node->payload))
+		printf("%s\n", (char *) node->payload);
 }

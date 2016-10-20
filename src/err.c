@@ -13,7 +13,7 @@ void err(char *error_message) {
 	return;
 }
 
-void emalloc(size_t size)
+void *emalloc(size_t size)
 {
     void *p = malloc(size);
     if (p==NULL) {
@@ -21,4 +21,14 @@ void emalloc(size_t size)
         exit(EXIT_FAILURE);
     }
     return p;
+}
+
+FILE *efopen(char *filename, char *mode)
+{
+	FILE *fp = fopen(filename, mode);
+	if (fp == NULL) {
+		puts("Erro: impossivel abrir ficheiro");
+		exit(EXIT_FAILURE);
+	}
+	return fp;
 }
