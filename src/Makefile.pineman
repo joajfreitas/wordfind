@@ -16,4 +16,4 @@ clean:
 	rm -rf *.o
 	rm $(EXEC)
 
--include $(SRC:%.c=/%.d)
+-include $(SRC:%.c=%.d)

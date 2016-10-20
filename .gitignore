@@ -33,3 +33,5 @@ tags
 # Debug files
 *.dSYM/
 *.su
+
+src/wordmorph
