@@ -19,7 +19,19 @@ struct _lists_array {
 	int num_lists;
 };
 
-Lists_Array *init_lists_array(int num_lists_init)
+
+int *la_get_sizes(Lists_Array *l)
+{
+    return l->lists_sizes;
+}
+
+int la_num_lists(Lists_Array *l)
+{
+    return l->num_lists;
+}
+
+
+Lists_Array *la_init(int num_lists_init)
 {
 	int i;
 
@@ -39,7 +51,7 @@ Lists_Array *init_lists_array(int num_lists_init)
 	return l;
 }
 
-void free_lists_array(Lists_Array *l, void (*free_item)(void *this))
+void la_free(Lists_Array *l, void (*free_item)(void *this))
 {
 	int i;
 
@@ -47,12 +59,13 @@ void free_lists_array(Lists_Array *l, void (*free_item)(void *this))
 		free_list(l->lists[i], free_item);
 
 	free(l->lists);
+    free(l->lists_sizes);
 	free(l);
 
 	return;
 }
 
-void write_to_dict(Lists_Array *l, char *word)
+void la_write(Lists_Array *l, char *word)
 {
     List *aux = NULL;
     char *payload = NULL;
@@ -69,7 +82,7 @@ void write_to_dict(Lists_Array *l, char *word)
 	(l->lists_sizes[(int) word_len])++;
 }
 
-void print_dict(Lists_Array *l)
+void la_print(Lists_Array *l)
 {
 	int i;
 	List *aux = NULL;
@@ -82,4 +95,3 @@ void print_dict(Lists_Array *l)
 		}
 	}
 }
-	

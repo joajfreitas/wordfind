@@ -9,13 +9,13 @@ void usage(char *nomeProg) {
 	exit(EXIT_FAILURE);
 }
 
-void read_dict(char *filename, Lists_Array *l)
+void read_fdict(char *filename, Lists_Array *l)
 {
 	FILE *fdict = efopen(filename, "r");
 	char word[MAX_WORD_SIZE];
 	
 	while(fscanf(fdict, "%s", word) == 1){
-		write_to_dict(l, word);
+		la_write(l, word);
 	}
 
 	fclose(fdict);
@@ -33,16 +33,15 @@ int main(int argc, char *argv[])
 		usage(argv[0]);
 	}
 
-	l = init_lists_array(MAX_WORD_SIZE);
-	read_dict(argv[1], l);
-	/*print_dict(l);*/
+	l = la_init(MAX_WORD_SIZE);
+	read_fdict(argv[1], l);
 
 	/*
 	read_pal();
 	write_out();
 	*/
 
-	free_lists_array(l, &free_item);
+	la_free(l, &free_item);
 
 	return EXIT_SUCCESS;
 }
