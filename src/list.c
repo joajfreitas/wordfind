@@ -53,15 +53,9 @@ void prepend(List* head, void * payload) {
 	List *new_node;
 
 	new_node = (List*) emalloc(sizeof(List));
-	if(new_node != NULL) {
-		new_node->payload = payload;
-		new_node->next = head->next;
-		head->next = new_node;
-		printf("Aloquei um no\n");
-		printf("que diz: %s\n", (char *) new_node->payload);
-	}
-	else
-		err("Impossivel obter novo nó");
+	new_node->payload = payload;
+	new_node->next = head->next;
+	head->next = new_node;
 	return;
 }
 

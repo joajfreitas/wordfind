@@ -12,7 +12,7 @@ void usage(char *nomeProg) {
 void read_dict(char *filename, Lists_Array *l)
 {
 	FILE *fdict = efopen(filename, "r");
-	char word[128];
+	char word[MAX_WORD_SIZE];
 	
 	while(fscanf(fdict, "%s", word) == 1){
 		write_to_dict(l, word);
@@ -23,7 +23,7 @@ void read_dict(char *filename, Lists_Array *l)
 
 void free_item(void *this)
 {
-	return;
+	free(this);
 }
 
 int main(int argc, char *argv[])
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
 	l = init_lists_array(MAX_WORD_SIZE);
 	read_dict(argv[1], l);
-	print_dict(l);
+	/*print_dict(l);*/
 
 	/*
 	read_pal();

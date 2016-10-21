@@ -54,10 +54,18 @@ void free_lists_array(Lists_Array *l, void (*free_item)(void *this))
 
 void write_to_dict(Lists_Array *l, char *word)
 {
+    List *aux = NULL;
+    char *payload = NULL;
 	size_t word_len = strlen(word);
-	char *payload = (char *) emalloc((word_len+1) * sizeof(char));
+    
+    for (aux = get_next(l->lists[word_len]); aux != NULL; aux = get_next(aux)) {
+        if (!strcmp(word, (char *) get_payload(aux)))
+            return;
+    }
+
+	payload = (char *) emalloc((word_len+1) * sizeof(char));
 	payload = strcpy(payload, word);
-	prepend(l->lists[(int) word_len], payload);
+	prepend(l->lists[word_len], payload);
 	(l->lists_sizes[(int) word_len])++;
 }
 
@@ -65,9 +73,8 @@ void print_dict(Lists_Array *l)
 {
 	int i;
 	List *aux = NULL;
-	/*printf("%d\n", l->lists_sizes[	*/
-	for (i=0, aux = l->lists[0]; i < l->num_lists; aux = l->lists[i], i++) {
-		printf("Percorri o dict %d vezes\n", i);
+	for (i=0, aux = l->lists[0]; i < l->num_lists; i++, aux = l->lists[i]) {
+		printf("Lista: %d\n", i);
 		while(aux != NULL) {
 			if (get_payload(aux))
 				printf("%s\n", (char *) get_payload(aux));
