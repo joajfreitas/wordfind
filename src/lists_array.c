@@ -32,7 +32,7 @@ Lists_Array *la_init(int num_lists_init)
 }
 
 
-void la_free(Lists_Array *la, void (*free_item)(void *item))
+void la_free(Lists_Array *la, void (*free_item)(Item item))
 {
 	int i;
 
@@ -52,7 +52,7 @@ void la_save_word(Lists_Array *la, char *word)
     char *new_word;
 	size_t word_len = strlen(word);
 
-	/* Check if word is already saved */
+	/* Verificar se a palavra já está guardada */
     for (aux = l_get_next(la_get_list(la, word_len)); aux != NULL; aux = l_get_next(aux)) {
 		/* TODO: há palavras repetidas ou não? */
         if (!strcmp(word, (char *) l_get_item(aux)))
@@ -61,7 +61,7 @@ void la_save_word(Lists_Array *la, char *word)
 
 	new_word = (char *) emalloc((word_len+1) * sizeof(char));
 	strcpy(new_word, word);
-	/* Save new_word in the appropiate list (indexed by word_len) */
+	/* Guardar a nova palavra na lista apropriada (de indíce word_len) */
 	l_prepend(la_get_list(la, word_len), new_word);
 	la_get_sizes(la)[word_len]++;
 }
@@ -81,7 +81,7 @@ void la_print_word(Lists_Array *l)
 	}
 }
 
-/* Helpers */
+/* Funções acessoras */
 int *la_get_sizes(Lists_Array *l)
 {
     return l->list_sizes;
