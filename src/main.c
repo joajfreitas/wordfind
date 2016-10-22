@@ -5,20 +5,20 @@
 #include "err.h"
 
 void usage(char *nomeProg) {
-	printf("Uso: %s [ficheiro1.dict] [ficheiro.pal]\n", nomeProg);
+	printf("Uso: %s [dicionário.dic] [problemas.pal]\n", nomeProg);
 	exit(EXIT_FAILURE);
 }
 
-void read_fdict(char *filename, Lists_Array *l)
+void read_dic(char *filename, Lists_Array *la)
 {
-	FILE *fdict = efopen(filename, "r");
+	FILE *fdic = efopen(filename, "r");
 	char word[MAX_WORD_SIZE];
-	
-	while(fscanf(fdict, "%s", word) == 1){
-		la_write(l, word);
+
+	while (fscanf(fdic, "%s", word) == 1) {
+		la_write(la, word);
 	}
 
-	fclose(fdict);
+	fclose(fdic);
 }
 
 void free_item(void *this)
@@ -28,20 +28,20 @@ void free_item(void *this)
 
 int main(int argc, char *argv[])
 {
-	Lists_Array *l = NULL;
+	Lists_Array *la;
 	if (argc != 3) {
 		usage(argv[0]);
 	}
 
-	l = la_init(MAX_WORD_SIZE);
-	read_fdict(argv[1], l);
+	la = la_init(MAX_WORD_SIZE);
+	read_dic(argv[1], la);
 
 	/*
 	read_pal();
 	write_out();
 	*/
 
-	la_free(l, &free_item);
+	la_free(la, &free_item);
 
 	return EXIT_SUCCESS;
 }
