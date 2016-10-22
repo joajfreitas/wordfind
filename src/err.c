@@ -2,22 +2,11 @@
 #include <stdlib.h>
 #include "err.h"
 
-/*
- * TODO: Decidir error-checking por malloc ou wrapper
- * TODO: se por malloc lembrar de checkar TODOS os mallocs
-*/
-
-void err(char *error_message) {
-	puts(error_message);
-	exit(EXIT_FAILURE);
-	return;
-}
-
 void *emalloc(size_t size)
 {
     void *p = malloc(size);
-    if (p==NULL) {
-        puts("Erro: impossivel alocar memoria.");
+    if (p == NULL) {
+        fprintf(stderr, "Erro: impossível alocar memória.");
         exit(EXIT_FAILURE);
     }
     return p;
@@ -27,7 +16,7 @@ FILE *efopen(char *filename, char *mode)
 {
 	FILE *fp = fopen(filename, mode);
 	if (fp == NULL) {
-		puts("Erro: impossivel abrir ficheiro");
+		fprintf(stderr, "Erro: impossível abrir ficheiro %s.", filename);
 		exit(EXIT_FAILURE);
 	}
 	return fp;

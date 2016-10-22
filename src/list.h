@@ -1,24 +1,15 @@
-/******************************************************************************
- *
- * File Name: lista.h
- * COMMENTS:
- *		Structure and prototypes for type List, a 1st order
- *      abstract data type that is a container.
- *		Each variable of type List implements a node of list of void *.
- *
- *****************************************************************************/
+#ifndef _LIST_H
+#define _LIST_H
 
-#ifndef _LISTA_H
-#define _LISTA_H
-
-/* type definition for structure to hold list item */
 typedef struct _List List;
+typedef void* Item;
 
-List *init_list(void);
-void prepend(List *head, void *payload);
-void *get_payload(List *p);
-List *get_next(List *p);
-int get_node_count(List *head);
-void free_list(List *lp, void (*free_item)(void *this));
-void print_payload(List *node);
+List *l_init(void);
+void l_free(List *lp, void (*free_item)(Item));
+
+void l_prepend(List *head, Item item);
+
+void *l_get_item(List *p);
+List *l_get_next(List *p);
+
 #endif

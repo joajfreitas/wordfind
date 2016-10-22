@@ -1,19 +1,18 @@
-/******************************************************************************
- *
- * File Name: dict.h
- * COMMENTS:
- *
- *****************************************************************************/
+#ifndef _LISTS_ARRAY_H
+#define _LISTS_ARRAY_H
 
-#ifndef _DICT_H
-#define _DICT_H
+#include "list.h"
 
-/* type definition for structure to hold word lists */
-typedef struct _lists_array Lists_Array;
+typedef struct _Lists_Array Lists_Array;
 
-Lists_Array *la_init();
-void la_free(Lists_Array *l, void (*free_item)(void *this));
-void la_write(Lists_Array *l, char *word);
-void la_print(Lists_Array *l);
+Lists_Array *la_init(int num_lists_init);
+void la_free(Lists_Array *la, void (*free_item)(void *item));
+
+void la_save_word(Lists_Array *l, char *word);
+void la_print_word(Lists_Array *l);
+
+int *la_get_sizes(Lists_Array *l);
+int la_get_num_lists(Lists_Array *l);
+List *la_get_list(Lists_Array *la, int n);
 
 #endif
