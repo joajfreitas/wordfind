@@ -31,6 +31,16 @@ Lists_Array *la_init(int num_lists_init)
 	return la;
 }
 
+/* The index of the array depends on what the Item is,
+ * so we need a function to find that
+ */
+void la_new_node(Lists_Array *la, Item item, int (*get_key)(Item))
+{
+    /*Se necessario verificar se a palavra ja existe*/
+    int key = get_key(item);
+    l_prepend(la->lists[key], item);
+    la_get_sizes(la)[key]++;
+}
 
 void la_free(Lists_Array *la, void (*free_item)(Item item))
 {
@@ -45,53 +55,33 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 	free(la);
 }
 
-
-void la_save_word(Lists_Array *la, char *word)
-{
-    List *aux;
-    char *new_word;
-	size_t word_len = strlen(word);
-
-	/* Verificar se a palavra já está guardada */
-    for (aux = l_get_next(la_get_list(la, word_len)); aux != NULL; aux = l_get_next(aux)) {
-		/* TODO: há palavras repetidas ou não? */
-        if (!strcmp(word, (char *) l_get_item(aux)))
-            return;
-    }
-
-	new_word = (char *) emalloc((word_len+1) * sizeof(char));
-	strcpy(new_word, word);
-	/* Guardar a nova palavra na lista apropriada (de indíce word_len) */
-	l_prepend(la_get_list(la, word_len), new_word);
-	la_get_sizes(la)[word_len]++;
-}
-
-
-void la_print_word(Lists_Array *l)
+void la_print_lists(Lists_Array *l)
 {
 	int i;
 	List *aux = NULL;
-	for (i=0, aux = l->lists[0]; i < l->num_lists; i++, aux = l->lists[i]) {
+	for (i=0, aux = l->lists[0]; i < l->num_lists; i++) {
 		printf("Lista: %d\n", i);
 		while (aux != NULL) {
 			if (l_get_item(aux))
 				printf("%s\n", (char *) l_get_item(aux));
 			aux = l_get_next(aux);
 		}
+        aux = l->lists[i];
 	}
 }
 
 /* Funções acessoras */
-int *la_get_sizes(Lists_Array *l)
+int *la_get_sizes(Lists_Array *la)
 {
-    return l->list_sizes;
+    return la->list_sizes;
 }
 
-int la_get_num_lists(Lists_Array *l)
+int la_get_num_lists(Lists_Array *la)
 {
-    return l->num_lists;
+    return la->num_lists;
 }
 
+/* TODO: this is not very orthogonal */
 List *la_get_list(Lists_Array *la, int n)
 {
 	return la->lists[n];
