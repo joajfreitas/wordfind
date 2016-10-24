@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "err.h"
-#include "utils.h"
 #include "const.h"
+#include "file.h"
+#include "word.h"
 
 
 void usage(char *nomeProg) {

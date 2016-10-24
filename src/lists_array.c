@@ -31,16 +31,6 @@ Lists_Array *la_init(int num_lists_init)
 	return la;
 }
 
-/* The index of the array depends on what the Item is,
- * so we need a function to find that
- */
-void la_new_node(Lists_Array *la, Item item, int (*get_key)(Item))
-{
-    int key = get_key(item);
-    l_prepend(la->lists[key], item);
-    la_get_sizes(la)[key]++;
-}
-
 void la_free(Lists_Array *la, void (*free_item)(Item item))
 {
 	int i;
@@ -50,8 +40,14 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 	}
 
 	free(la->lists);
-    free(la->list_sizes);
+	free(la->list_sizes);
 	free(la);
+}
+
+void la_new_node(Lists_Array *la, Item item, int index)
+{
+	l_prepend(la->lists[index], item);
+	la_get_sizes(la)[index]++;
 }
 
 void la_print_lists(Lists_Array *l)
@@ -65,19 +61,19 @@ void la_print_lists(Lists_Array *l)
 				printf("%s\n", (char *) l_get_item(aux));
 			aux = l_get_next(aux);
 		}
-        aux = l->lists[i];
+		aux = l->lists[i];
 	}
 }
 
 /* Funções acessoras */
 int *la_get_sizes(Lists_Array *la)
 {
-    return la->list_sizes;
+	return la->list_sizes;
 }
 
 int la_get_num_lists(Lists_Array *la)
 {
-    return la->num_lists;
+	return la->num_lists;
 }
 
 /* TODO: this is not very orthogonal */

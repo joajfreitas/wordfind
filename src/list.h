@@ -1,7 +1,8 @@
 #ifndef _LIST_H
 #define _LIST_H
 
-#define Item void*
+#include "item.h"
+
 typedef struct _List List;
 
 List *l_init(void);
