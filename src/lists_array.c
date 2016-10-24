@@ -36,7 +36,6 @@ Lists_Array *la_init(int num_lists_init)
  */
 void la_new_node(Lists_Array *la, Item item, int (*get_key)(Item))
 {
-    /*Se necessario verificar se a palavra ja existe*/
     int key = get_key(item);
     l_prepend(la->lists[key], item);
     la_get_sizes(la)[key]++;
