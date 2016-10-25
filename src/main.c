@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	FILE *fdic, *fpal;
 	int i;
 	char *test;
+	int max_word_size;
 
 	if (argc != 3) {
 		usage(argv[0]);
@@ -37,16 +38,20 @@ int main(int argc, char *argv[])
 	fdic = efopen(argv[1], "r");
 	fpal = efopen(argv[2], "r");
 
+	max_word_size = (int) find_max_word(fdic) + 1;
+	rewind(fdic);
+
 	/* Ler dicinário para um array de listas */
 	/* TODO: tamanho máximo das palavras */
-	la = la_init(MAX_WORD_SIZE);
-	read_dic(fdic, la, MAX_WORD_SIZE);
+	la = la_init(max_word_size);
+	read_dic(fdic, la, max_word_size);
+	la_convert_to_array(la);
 
 	/* Ler problemas */
 	/* TODO: os problemas são resolvidos um a um assim que são lidos,
 	 * ou são resolvidos todos de seguida e escritos duma vez
 	 * no ficheiro de saída? */
-	read_pal(fpal, MAX_WORD_SIZE);
+	read_pal(fpal, max_word_size);
 
 	/* Libertar memória */
 	la_free(la, w_free);
