@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	for (i = 0; i < 2; i++) {
 		test = strrchr(argv[i+1], '.');
 
-		if (strcmp(test, VALID_EXTS[i]) != 0) {
+		if (!test || strcmp(test, VALID_EXTS[i]) != 0) {
 			usage(argv[1]);
 		}
 	}
