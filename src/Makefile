@@ -1,4 +1,5 @@
-#CFLAGS=-O3 -pg -Wall -Wextra -pedantic -ansi
+#CFLAGS=-O3 -Wall -Wextra -pedantic -ansi
+#CFLAGS=-Wall -Wextra -pedantic -ansi
 #CFLAGS=-g -pg -Wall -Wextra -pedantic -ansi
 CFLAGS=-g -Wall -Wextra -pedantic -ansi
 CPPFLAGS=-MP -MMD
@@ -15,7 +16,9 @@ $(EXEC): $(SRC:%.c=%.o)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean:
-	rm -rf *.o
-	rm $(EXEC)
+	rm -rf *.o *.out*
+	rm -rf $(EXEC)
 
 -include $(SRC:%.c=%.d)
+
+# TODO: criar make test, automatizar memcheck, massif e gprof

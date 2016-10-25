@@ -50,21 +50,6 @@ void la_new_node(Lists_Array *la, Item item, int index)
 	la_get_sizes(la)[index]++;
 }
 
-void la_print_lists(Lists_Array *l)
-{
-	int i;
-	List *aux = NULL;
-	for (i=0, aux = l->lists[0]; i < l->num_lists; i++) {
-		printf("Lista: %d\n", i);
-		while (aux != NULL) {
-			if (l_get_item(aux))
-				printf("%s\n", (char *) l_get_item(aux));
-			aux = l_get_next(aux);
-		}
-		aux = l->lists[i];
-	}
-}
-
 /* Funções acessoras */
 int *la_get_sizes(Lists_Array *la)
 {
