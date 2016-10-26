@@ -9,7 +9,7 @@
 void read_dic(FILE *fdic, Lists_Array *la, int max_word_size)
 {
 	/* TODO: tamanho máximo das palavras do dic, perigo buffer*/
-	char *buf = (char *) emalloc(max_word_size * sizeof(int));
+	char *buf = (char *) emalloc(max_word_size * sizeof(char));
 
 	while (fscanf(fdic, "%s", buf) == 1) {
 		la_new_node(la, w_new(buf), w_get_size(buf));
@@ -21,8 +21,8 @@ void read_dic(FILE *fdic, Lists_Array *la, int max_word_size)
 
 void read_pal(FILE *fpal, int max_word_size)
 {
-	char *word1 = (char *) malloc(max_word_size * sizeof(int));
-	char *word2 = (char *) malloc(max_word_size * sizeof(int));
+	char *word1 = (char *) malloc(max_word_size * sizeof(char));
+	char *word2 = (char *) malloc(max_word_size * sizeof(char));
 
 	int challenge;
 
