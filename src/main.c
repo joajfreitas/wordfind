@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 	int i;
 	char *test;
 	int max_word_size;
+	int *word_exists;
 
 	if (argc != 3) {
 		usage(argv[0]);
@@ -38,13 +39,14 @@ int main(int argc, char *argv[])
 	fdic = efopen(argv[1], "r");
 	fpal = efopen(argv[2], "r");
 
-	max_word_size = (int) find_max_word(fdic) + 1;
+	word_exists = (int *) calloc(1024,  sizeof(int));
+	max_word_size = (int) find_max_word(fpal, word_exists) + 1;
 	rewind(fdic);
 
 	/* Ler dicinário para um array de listas */
 	/* TODO: tamanho máximo das palavras */
 	la = la_init(max_word_size);
-	read_dic(fdic, la, max_word_size);
+	read_dic(fdic, la, max_word_size, word_exists);
 	la_convert_to_array(la);
 
 	/* Ler problemas */
@@ -54,6 +56,7 @@ int main(int argc, char *argv[])
 	read_pal(fpal, max_word_size);
 
 	/* Libertar memória */
+	free(word_exists);
 	la_free(la, w_free);
 
 	return EXIT_SUCCESS;
