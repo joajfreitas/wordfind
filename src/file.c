@@ -6,13 +6,29 @@
 #include "word.h"
 #include "file.h"
 
-void read_dic(FILE *fdic, Lists_Array *la, int max_word_size)
+
+size_t find_max_word(FILE *fpal, int *word_exists)
+{
+	char buffer[1024];
+	size_t max = 0, size=0;
+
+	while (fscanf(fpal, "%s", buffer) == 1) {
+		size = strlen(buffer);
+		if (max < size) max = strlen(buffer);
+		(word_exists[size])++;
+	}
+	return max;
+}
+
+
+void read_dic(FILE *fdic, Lists_Array *la, int max_word_size, int *word_exists)
 {
 	/* TODO: tamanho máximo das palavras do dic, perigo buffer*/
 	char *buf = (char *) emalloc(max_word_size * sizeof(char));
 
 	while (fscanf(fdic, "%s", buf) == 1) {
-		la_new_node(la, w_new(buf), w_get_size(buf));
+		if (word_exists[w_get_size(buf)])
+			la_new_node(la, w_new(buf), w_get_size(buf));
 	}
 
 	free(buf);

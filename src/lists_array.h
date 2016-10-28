@@ -14,5 +14,7 @@ void la_print_lists(Lists_Array *l);
 int *la_get_sizes(Lists_Array *l);
 int la_get_num_lists(Lists_Array *l);
 List *la_get_list(Lists_Array *la, int n);
+void la_convert_to_array(Lists_Array *la);
+void print_array(Lists_Array *la);
 
 #endif
