@@ -52,9 +52,12 @@ int main(int argc, char *argv[])
 
 	fclose(fdic);
 
+	la_sort(la);
+
 	/*Processar dados obtidos*/
 	la_convert_to_array(la);
 
+	print_array(la);
 	/* Ler problemas */
 	/* TODO: os problemas são resolvidos um a um assim que são lidos,
 	 * ou são resolvidos todos de seguida e escritos duma vez

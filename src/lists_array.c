@@ -70,9 +70,10 @@ void la_convert_to_array(Lists_Array *la)
 {
 	int i, j;
 	List *aux = NULL;
+	Item **array;
 
 	for (i = 0; i < la->num_lists; i++)	{
-		Item **array = (Item **) emalloc(sizeof(Item *) * la->list_sizes[i]);
+		array = (Item **) emalloc(sizeof(Item *) * la->list_sizes[i]);
 		aux = l_get_next(la->lists[i]);
 
 		for (j=0; aux != NULL; j++) {
@@ -85,56 +86,22 @@ void la_convert_to_array(Lists_Array *la)
 }
 
 
-int cmp(Item a, Item b)
+void la_sort(Lists_Array *la)
 {
-	int cmp;
-	cmp = strcmp((char *) a, (char *) b);
-	if (cmp <= 0)
-		return 1;
-	else
-		return 0; 
-
-}
-/*Perigo: passar head->next como argumento*/
-List *la_mergesort(List *c)
-{
-	List *a, *b;
-	if (c==NULL || l_get_next(c) == NULL) return c;
-	a = c; b = l_get_next(c);
-	while ((b != NULL) && (l_get_next(b) != NULL)) {
-		c = l_get_next(c); 
-		b = l_get_next(l_get_next(b));
+	int i;
+	List *next;
+	for (i=0; i<la->num_lists; i++) {
+		next = l_mergesort(l_get_next(la->lists[i]));
+		l_set_next(la->lists[i], next);
 	}
-
-	b = l_get_next(c); l_set_next(c, NULL);
-	return merge(la_mergesort(a), la_mergesort(b));
 }
 
-List *merge(List *a, List *b)
-{
-	struct List head; List *c = &head;
-	while ((a != NULL) && (b != NULL)) {
-		if(cmp(l_get_item(a), l_get_item(b))) {
-			l_set_next(c, a); 
-			c = a;
-			a = l_get_next(a);
-		}
-		else {
-			l_set_next(c, b);
-			c = b;
-			b = l_get_next(b);
-		}
-	}
-	l_set_next(c, (a == NULL) ? b : a);
-
-	return head.next;
-}
-
-
+/*TODO: Only for debug remove before deliver*/
 void print_array(Lists_Array *la)
 {
 	int i, j;
 	for (i=0; i < la->num_lists; i++) {
+		printf("\nArray: %d\n\n", i);
 		for (j=0; j < la->list_sizes[i]; j++)
 		{
 			if (la->array[i][j] == NULL)
