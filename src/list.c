@@ -3,10 +3,7 @@
 #include "err.h"
 
 
-struct _List {
-	Item item;
-	struct _List *next;
-};
+
 
 
 List *l_init(void)
@@ -54,4 +51,9 @@ List *l_get_next(List *l)
 Item l_get_item(List *l)
 {
 	return l->item;
+}
+
+void l_set_next(List *l, List *next)
+{
+	l->next = next;
 }
