@@ -13,6 +13,16 @@ void *emalloc(size_t size)
 	return p;
 }
 
+void *ecalloc(size_t nmemb, size_t size) 
+{
+	void *p = calloc(nmemb, size);
+	if (p == NULL) {
+		fprintf(stderr, "Erro: impossivel alocar memória.");
+		exit(EXIT_FAILURE);
+	}
+	return p;
+}
+
 FILE *efopen(char *filename, char *mode)
 {
 	FILE *fp = fopen(filename, mode);

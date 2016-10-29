@@ -55,37 +55,3 @@ Item l_get_item(List *l)
 {
 	return l->item;
 }
-
-
-/* TESTE
-void str_free(Item s)
-{
-	s = (char *) s;
-	free(s);
-}
-
-int main(void)
-{
-	List *l = l_init();
-
-	char *a = (char *) malloc(10*sizeof(char));
-	char *b = (char *) malloc(10*sizeof(char));
-	char *c = (char *) malloc(10*sizeof(char));
-	strcpy(a, "hallo");
-	strcpy(b, "hello");
-	strcpy(c, "hillo");
-
-	l_prepend(l, a);
-	l_prepend(l, b);
-	l_prepend(l, c);
-
-	List *aux = l->next;
-	while (aux) {
-		printf("%s\n", (char *) l_get_item(aux));
-		aux = aux->next;
-	}
-
-	l_free(l, str_free);
-	return 0;
-}
-*/
