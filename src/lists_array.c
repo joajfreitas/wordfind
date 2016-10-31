@@ -147,3 +147,29 @@ int la_get_ajusted_index(Lists_Array *la, int index)
 {
 	return la->index[index];
 }
+
+int la_binary_search(Lists_Array *la, char *word)
+{
+	int index = strlen(word);
+	int adjusted_index = la_get_ajusted_index(la, index);
+
+	int R = la->list_sizes[adjusted_index] - 1;
+	int L = 0;
+	int m = (L+R)/2;
+	int j;
+	
+	while((j = strcmp(word, (char *) la->array[adjusted_index][m])) != 0) {
+		if (L>R) 
+			return 0;
+		else if (j<0) 
+			R = m-1;
+		else if (j>0) 
+			L = m+1;
+			
+		m = (L + R)/2;
+		/*printf("L:%d R:%d\n", L, R);*/
+
+	}
+
+	return m;
+}
