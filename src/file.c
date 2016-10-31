@@ -39,12 +39,16 @@ void read_dic(FILE *fdic, Lists_Array *la)
 	free(buf);
 }
 
-void read_pal(FILE *fpal, int max_word_size)
+void read_pal(FILE *fpal, Lists_Array *la)
 {
-	char *word1 = (char *) emalloc(max_word_size * sizeof(char));
-	char *word2 = (char *) emalloc(max_word_size * sizeof(char));
+	char *word1 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
+	char *word2 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
 
 	int challenge;
+
+	FILE *fstat = NULL;
+
+	fstat = efopen("dummy.stat", "w");
 
 	/* Verificar apenas por um novo problema (um por linha);
 	 * assume-se que o ficheiro está formatado corretamente,
@@ -53,8 +57,22 @@ void read_pal(FILE *fpal, int max_word_size)
 		fscanf(fpal, "%s", word2);
 		fscanf(fpal, "%d", &challenge);
 		/* TODO: ou guardar os problemas ou resolver um por um */
+
+		if (challenge == 1) {
+			fprintf(fstat, "%s %d\n", word1, la_get_sizes(la)[la_get_ajusted_index(la, strlen(word1))]);
+		}
+		else if (challenge == 2) {
+			fprintf(fstat, "%s %d\n", word1, la_binary_search(la, word1));
+			fprintf(fstat, "%s %d\n", word2, la_binary_search(la, word2));
+
+		}
+		else
+			continue;
+
+		fprintf(fstat, "\n");
 	}
 
+	fclose(fstat);
 	free(word1);
 	free(word2);
 }
