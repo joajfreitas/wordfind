@@ -29,8 +29,8 @@ Lists_Array *la_init(int *index_init)
 	la->list_sizes = (int *) emalloc(lists_length * sizeof(int));
 	la->lists = (List **) emalloc(lists_length * sizeof(List *));
 	la->array = (Item ***) emalloc(lists_length * sizeof(Item **));
-	
-	
+
+
 	la->num_lists = lists_length;
 
 	for (i = 0; i < lists_length; i++) {
@@ -43,8 +43,8 @@ Lists_Array *la_init(int *index_init)
 
 void la_new_node(Lists_Array *la, Item item, int index)
 {
-	l_prepend(la->lists[la_get_ajusted_index(la, index)], item);
-	la_get_sizes(la)[la_get_ajusted_index(la, index)]++;
+	l_prepend(la->lists[la_get_adjusted_index(la, index)], item);
+	la_get_sizes(la)[la_get_adjusted_index(la, index)]++;
 }
 
 void la_free(Lists_Array *la, void (*free_item)(Item item))
@@ -62,11 +62,11 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 	free(la->array);
 	free(la->lists);
 	free(la->list_sizes);
-	free(la->index);	
+	free(la->index);
 	free(la);
 }
 
-void la_convert_to_array(Lists_Array *la) 
+void la_convert_to_array(Lists_Array *la)
 {
 	int i, j;
 	List *aux = NULL;
@@ -78,7 +78,7 @@ void la_convert_to_array(Lists_Array *la)
 
 		for (j=0; aux != NULL; j++) {
 			array[j] = l_get_item(aux);
-			aux = l_get_next(aux);			
+			aux = l_get_next(aux);
 		}
 
 		la->array[i] = array;
@@ -96,6 +96,32 @@ void la_sort(Lists_Array *la)
 	}
 }
 
+int la_binary_search(Lists_Array *la, char *word)
+{
+	int index = strlen(word);
+	int adjusted_index = la_get_adjusted_index(la, index);
+
+	int R = la->list_sizes[adjusted_index] - 1;
+	int L = 0;
+	int m = (L+R)/2;
+	int j;
+
+	while((j = strcmp(word, (char *) la->array[adjusted_index][m])) != 0) {
+		if (L>R)
+			return 0;
+		else if (j<0)
+			R = m-1;
+		else if (j>0)
+			L = m+1;
+
+		m = (L + R)/2;
+		/*printf("L:%d R:%d\n", L, R);*/
+
+	}
+
+	return m;
+}
+
 /*TODO: Only for debug remove before deliver*/
 void print_array(Lists_Array *la)
 {
@@ -110,6 +136,8 @@ void print_array(Lists_Array *la)
 		}
 	}
 }
+
+
 /* Funções acessoras */
 int *la_get_sizes(Lists_Array *la)
 {
@@ -121,7 +149,6 @@ int la_get_num_lists(Lists_Array *la)
 	return la->num_lists;
 }
 
-/* TODO: this is not very orthogonal */
 List *la_get_list(Lists_Array *la, int n)
 {
 	return la->lists[n];
@@ -143,33 +170,7 @@ int la_get_lists_lenght(Lists_Array *la)
 	return counter;
 }
 
-int la_get_ajusted_index(Lists_Array *la, int index)
+int la_get_adjusted_index(Lists_Array *la, int index)
 {
 	return la->index[index];
-}
-
-int la_binary_search(Lists_Array *la, char *word)
-{
-	int index = strlen(word);
-	int adjusted_index = la_get_ajusted_index(la, index);
-
-	int R = la->list_sizes[adjusted_index] - 1;
-	int L = 0;
-	int m = (L+R)/2;
-	int j;
-	
-	while((j = strcmp(word, (char *) la->array[adjusted_index][m])) != 0) {
-		if (L>R) 
-			return 0;
-		else if (j<0) 
-			R = m-1;
-		else if (j>0) 
-			L = m+1;
-			
-		m = (L + R)/2;
-		/*printf("L:%d R:%d\n", L, R);*/
-
-	}
-
-	return m;
 }

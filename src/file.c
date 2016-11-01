@@ -59,7 +59,7 @@ void read_pal(FILE *fpal, Lists_Array *la)
 		/* TODO: ou guardar os problemas ou resolver um por um */
 
 		if (challenge == 1) {
-			fprintf(fstat, "%s %d\n", word1, la_get_sizes(la)[la_get_ajusted_index(la, strlen(word1))]);
+			fprintf(fstat, "%s %d\n", word1, la_get_sizes(la)[la_get_adjusted_index(la, strlen(word1))]);
 		}
 		else if (challenge == 2) {
 			fprintf(fstat, "%s %d\n", word1, la_binary_search(la, word1));

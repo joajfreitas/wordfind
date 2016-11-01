@@ -20,7 +20,7 @@ void la_convert_to_array(Lists_Array *la);
 void print_array(Lists_Array *la);
 int la_get_index(Lists_Array *la, int index);
 int la_get_lists_lenght(Lists_Array *la);
-int la_get_ajusted_index(Lists_Array *la, int index);
+int la_get_adjusted_index(Lists_Array *la, int index);
 void la_sort(Lists_Array *la);
 int la_binary_search(Lists_Array *la, char *word);
 #endif

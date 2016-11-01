@@ -40,8 +40,7 @@ int main(int argc, char *argv[])
 	fdic = efopen(argv[1], "r");
 	fpal = efopen(argv[2], "r");
 
-	/*Leitura de ficheiros de entrada*/
-
+	/* Leitura de ficheiros de entrada */
 	index_conv = find_max_word(fpal);
 	rewind(fpal);
 
@@ -55,12 +54,12 @@ int main(int argc, char *argv[])
 
 	la_sort(la);
 
-	/*Processar dados obtidos*/
+	/* Processar dados obtidos */
 	la_convert_to_array(la);
 
 	/*print_array(la);*/
 
-	/* Ler problemas */
+	/* Ler e resolver problemas */
 	/* TODO: os problemas são resolvidos um a um assim que são lidos,
 	 * ou são resolvidos todos de seguida e escritos duma vez
 	 * no ficheiro de saída? */
