@@ -13,7 +13,7 @@ void *emalloc(size_t size)
 	return p;
 }
 
-void *ecalloc(size_t nmemb, size_t size) 
+void *ecalloc(size_t nmemb, size_t size)
 {
 	void *p = calloc(nmemb, size);
 	if (p == NULL) {

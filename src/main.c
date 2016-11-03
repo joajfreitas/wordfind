@@ -7,6 +7,7 @@
 #include "file.h"
 #include "word.h"
 
+const char *VALID_EXTS[] = {".dic", ".pal"};
 
 void usage(char *nomeProg) {
 	fprintf(stderr, "Uso: %s [dicionário.dic] [problemas.pal]\n", nomeProg);
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
 	FILE *fdic, *fpal;
 	int i;
 	char *test;
-	int *index_conv;
+	int *word_sizes;
 
 	/* Verificação dos parametros de entrada*/
 
@@ -41,29 +42,26 @@ int main(int argc, char *argv[])
 	fpal = efopen(argv[2], "r");
 
 	/* Leitura de ficheiros de entrada */
-	index_conv = find_max_word(fpal);
+	word_sizes = find_word_sizes(fpal);
 	rewind(fpal);
 
-	/* Ler dicinário para um array de listas */
-	la = la_init(index_conv);
-	free(index_conv);
+	/* Inicializar array de listas */
+	la = la_init(word_sizes);
+	free(word_sizes);
 
+	/* Ler dicinário para o array de listas */
 	read_dic(fdic, la);
-
 	fclose(fdic);
 
-	la_sort(la);
+	/* Ordenar listas do array de listas */
+	la_sort_lists(la);
 
-	/* Processar dados obtidos */
+	/* Converter cada lista do array de listas para array.
+	 * Assim "la" é um array de arrays e possibilita procura binária. */
 	la_convert_to_array(la);
 
-	/*print_array(la);*/
-
 	/* Ler e resolver problemas */
-	/* TODO: os problemas são resolvidos um a um assim que são lidos,
-	 * ou são resolvidos todos de seguida e escritos duma vez
-	 * no ficheiro de saída? */
-	read_pal(fpal, la);
+	solve_pal(fpal, la);
 	fclose(fpal);
 
 	/* Libertar memória */

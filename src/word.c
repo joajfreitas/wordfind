@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "err.h"
 #include "word.h"
@@ -11,6 +12,7 @@
  * };
  *
 */
+
 char *w_new(char *word)
 {
 	char *new_word = (char *) emalloc((strlen(word) + 1) * sizeof(char));
@@ -22,6 +24,16 @@ char *w_new(char *word)
 void w_free(Item word)
 {
 	free(word);
+}
+
+bool w_less(Item a, Item b)
+{
+	int less;
+	less = strcmp((char *) a, (char *) b);
+	if (less <= 0)
+		return true;
+	else
+		return false;
 }
 
 /* Funções acessoras */

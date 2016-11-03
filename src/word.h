@@ -1,6 +1,8 @@
 #ifndef _WORD_H
 #define _WORD_H
 
+#include <stdbool.h>
+
 #include "item.h"
 
 /* TODO:
@@ -9,6 +11,7 @@
 
 char *w_new(char *word);
 void w_free(Item word);
+bool w_less(Item a, Item b);
 
 int w_get_size(char *word);
 

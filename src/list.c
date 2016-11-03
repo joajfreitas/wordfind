@@ -1,7 +1,10 @@
 /* Singly linked list with dummy head node */
-#include "list.h"
-#include "err.h"
 #include <string.h>
+
+#include "err.h"
+#include "list.h"
+#include "word.h"
+
 
 struct _List {
 	Item item;
@@ -18,19 +21,6 @@ List *l_init(void)
 	return head;
 }
 
-
-void l_prepend(List *head, Item item)
-{
-	List *new_node = (List *) emalloc(sizeof(List));
-	new_node->item = item;
-
-	new_node->next = head->next;
-	head->next = new_node;
-
-	return;
-}
-
-
 void l_free(List *head, void (*free_item)(Item))
 {
 	List *aux = head->next;
@@ -45,39 +35,49 @@ void l_free(List *head, void (*free_item)(Item))
 	}
 }
 
-int cmp(Item a, Item b)
+void l_prepend(List *head, Item item)
 {
-	int cmp;
-	cmp = strcmp((char *) a, (char *) b);
-	if (cmp <= 0)
-		return 1;
-	else
-		return 0; 
+	List *new_node = (List *) emalloc(sizeof(List));
+	new_node->item = item;
 
+	new_node->next = head->next;
+	head->next = new_node;
+
+	return;
 }
 
-/*Perigo: passar head->next como argumento*/
 List *l_mergesort(List *c)
 {
+	/* TODO: cutoff insertion sort */
 	List *a, *b;
-	/*printf("%s\n", (char *) c->item);*/
-	if (c==NULL || c->next == NULL) return c;
-	a = c; b = c->next;
+
+	if (c == NULL || c->next == NULL) {
+		return c;
+	}
+
+	a = c;
+	b = c->next;
+
 	while ((b != NULL) && (b->next != NULL)) {
-		c = c->next; 
+		c = c->next;
 		b = b->next->next;
 	}
 
-	b = c->next; c->next = NULL;
+	b = c->next;
+	c->next = NULL;
+
 	return merge(l_mergesort(a), l_mergesort(b));
 }
 
 List *merge(List *a, List *b)
 {
-	struct _List head; List *c = &head;
+	struct _List head;
+
+	List *c = &head;
+
 	while ((a != NULL) && (b != NULL)) {
-		if(cmp(a->item, b->item)) {
-			c->next = a; 
+		if (w_less(a->item, b->item)) {
+			c->next = a;
 			c = a;
 			a = a->next;
 		}
@@ -88,6 +88,9 @@ List *merge(List *a, List *b)
 		}
 	}
 	c->next = (a == NULL) ? b : a;
+
+	/* TODO: WTF? */
+	/*assert(c->next == head.next);*/
 
 	return head.next;
 }

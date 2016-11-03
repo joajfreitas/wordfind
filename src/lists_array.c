@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "err.h"
+#include "const.h"
 #include "list.h"
 #include "lists_array.h"
 
@@ -9,22 +10,27 @@
 struct _Lists_Array {
 	Item ***array;
 	List **lists;
-	int *list_sizes;	/*Tamanho de cada lista*/
-	int num_lists;		/*Tamanho do array de listas*/
-	int *index;			/*A cada tamanho de palavra faz corresponder o endereço real na tabela de listas*/
+	/* Tamanho de cada lista */
+	int *list_sizes;
+	/* Tamanho do array de listas */
+	int num_lists;
+	/* A cada tamanho de palavra faz corresponder o endereço real
+	 * na tabela de listas */
+	int *index;
 };
 
-Lists_Array *la_init(int *index_init)
+
+Lists_Array *la_init(int *word_sizes)
 {
 	int i;
 	int lists_length = 0;
 
 	Lists_Array *la = (Lists_Array *) emalloc(sizeof(Lists_Array));
 
-	la->index = (int *) ecalloc(MAX_WORD_SIZE, sizeof(int));
-	memcpy(la->index, index_init, MAX_WORD_SIZE*sizeof(int));
+	la->index = (int *) emalloc(MAX_WORD_SIZE, sizeof(int));
+	memcpy(la->index, word_sizes, MAX_WORD_SIZE*sizeof(int));
 
-	lists_length = la_get_lists_lenght(la) + 1;
+	lists_length = la_get_lists_length(la) + 1;
 
 	la->list_sizes = (int *) emalloc(lists_length * sizeof(int));
 	la->lists = (List **) emalloc(lists_length * sizeof(List *));
@@ -55,8 +61,7 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 		l_free(la->lists[i], free_item);
 	}
 
-	for (i = 0; i < la->num_lists; i++)
-	{
+	for (i = 0; i < la->num_lists; i++) {
 		free(la->array[i]);
 	}
 	free(la->array);
@@ -64,6 +69,19 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 	free(la->list_sizes);
 	free(la->index);
 	free(la);
+}
+
+
+void la_sort_lists(Lists_Array *la)
+{
+	int i;
+	List *sorted;
+	for (i = 0; i < la->num_lists; i++) {
+		/* lista tem dummy head node */
+		sorted = l_mergesort(l_get_next(la->lists[i]));
+		/* Substituir lista antiga pela ordenada */
+		l_set_next(la->lists[i], sorted);
+	}
 }
 
 void la_convert_to_array(Lists_Array *la)
@@ -85,17 +103,6 @@ void la_convert_to_array(Lists_Array *la)
 	}
 }
 
-
-void la_sort(Lists_Array *la)
-{
-	int i;
-	List *next;
-	for (i=0; i<la->num_lists; i++) {
-		next = l_mergesort(l_get_next(la->lists[i]));
-		l_set_next(la->lists[i], next);
-	}
-}
-
 int la_binary_search(Lists_Array *la, char *word)
 {
 	int index = strlen(word);
@@ -106,7 +113,7 @@ int la_binary_search(Lists_Array *la, char *word)
 	int m = (L+R)/2;
 	int j;
 
-	while((j = strcmp(word, (char *) la->array[adjusted_index][m])) != 0) {
+	while ((j = strcmp(word, (char *) la->array[adjusted_index][m])) != 0) {
 		if (L>R)
 			return 0;
 		else if (j<0)
@@ -115,21 +122,19 @@ int la_binary_search(Lists_Array *la, char *word)
 			L = m+1;
 
 		m = (L + R)/2;
-		/*printf("L:%d R:%d\n", L, R);*/
-
 	}
 
 	return m;
 }
 
-/*TODO: Only for debug remove before deliver*/
+/* TODO: Only for debug remove before deliver */
 void print_array(Lists_Array *la)
 {
 	int i, j;
 	for (i=0; i < la->num_lists; i++) {
 		printf("\nArray: %d\n\n", i);
-		for (j=0; j < la->list_sizes[i]; j++)
-		{
+
+		for (j=0; j < la->list_sizes[i]; j++) {
 			if (la->array[i][j] == NULL)
 				break;
 			printf("%s\n", (char *) la->array[i][j]);
@@ -159,7 +164,7 @@ int la_get_index(Lists_Array *la, int index)
 	return la->index[index];
 }
 
-int la_get_lists_lenght(Lists_Array *la)
+int la_get_lists_length(Lists_Array *la)
 {
 	int i;
 	int counter = 0;

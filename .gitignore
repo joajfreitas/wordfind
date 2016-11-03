@@ -35,3 +35,4 @@ tags
 *.su
 
 src/wordmorph
+src/.dummy
