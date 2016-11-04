@@ -12,7 +12,7 @@ void la_new_node(Lists_Array *la, Item item, int index);
 void la_print_lists(Lists_Array *l);
 
 void la_convert_to_array(Lists_Array *la);
-void la_sort_lists(Lists_Array *la);
+void la_sort_lists(Lists_Array *la, bool (*less)(Item a, Item b));
 int la_binary_search(Lists_Array *la, char *word);
 void print_array(Lists_Array *la);
 

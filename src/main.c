@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	fclose(fdic);
 
 	/* Ordenar listas do array de listas */
-	la_sort_lists(la);
+	la_sort_lists(la, w_less);
 
 	/* Converter cada lista do array de listas para array.
 	 * Assim "la" é um array de arrays e possibilita procura binária. */

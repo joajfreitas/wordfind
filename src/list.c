@@ -1,5 +1,6 @@
 /* Singly linked list with dummy head node */
 #include <string.h>
+#include <stdbool.h>
 
 #include "err.h"
 #include "list.h"
@@ -46,7 +47,7 @@ void l_prepend(List *head, Item item)
 	return;
 }
 
-List *l_mergesort(List *c)
+List *l_mergesort(List *c, bool (*less)(Item a, Item b))
 {
 	/* TODO: cutoff insertion sort */
 	List *a, *b;
@@ -66,17 +67,17 @@ List *l_mergesort(List *c)
 	b = c->next;
 	c->next = NULL;
 
-	return merge(l_mergesort(a), l_mergesort(b));
+	return l_merge(l_mergesort(a, less), l_mergesort(b, less), less);
 }
 
-List *merge(List *a, List *b)
+List *l_merge(List *a, List *b, bool (*less)(Item a, Item b))
 {
 	struct _List head;
 
 	List *c = &head;
 
 	while ((a != NULL) && (b != NULL)) {
-		if (w_less(a->item, b->item)) {
+		if (less(a->item, b->item)) {
 			c->next = a;
 			c = a;
 			a = a->next;

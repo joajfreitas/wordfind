@@ -27,8 +27,8 @@ Lists_Array *la_init(int *word_sizes)
 
 	Lists_Array *la = (Lists_Array *) emalloc(sizeof(Lists_Array));
 
-	la->index = (int *) emalloc(MAX_WORD_SIZE, sizeof(int));
-	memcpy(la->index, word_sizes, MAX_WORD_SIZE*sizeof(int));
+	la->index = (int *) emalloc(MAX_WORD_SIZE * sizeof(int));
+	memcpy(la->index, word_sizes, MAX_WORD_SIZE * sizeof(int));
 
 	lists_length = la_get_lists_length(la) + 1;
 
@@ -72,13 +72,13 @@ void la_free(Lists_Array *la, void (*free_item)(Item item))
 }
 
 
-void la_sort_lists(Lists_Array *la)
+void la_sort_lists(Lists_Array *la, bool (*less)(Item a, Item b))
 {
 	int i;
 	List *sorted;
 	for (i = 0; i < la->num_lists; i++) {
 		/* lista tem dummy head node */
-		sorted = l_mergesort(l_get_next(la->lists[i]));
+		sorted = l_mergesort(l_get_next(la->lists[i]), less);
 		/* Substituir lista antiga pela ordenada */
 		l_set_next(la->lists[i], sorted);
 	}
