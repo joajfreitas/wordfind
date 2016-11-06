@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void *emalloc(size_t size);
-void *ecalloc(size_t nmemb, size_t size);
-FILE *efopen(char *filename, char *mode);
+void *emalloc(const size_t size);
+void *ecalloc(const size_t nmemb, const size_t size);
+FILE *efopen(const char *filename, const char *mode);
 
 #endif
