@@ -1,7 +1,7 @@
 #ifndef _LIST_H
 #define _LIST_H
 
-#include <stdbool.h>
+#include "const.h"
 
 #include "item.h"
 

@@ -4,4 +4,6 @@
 #define MAX_WORD_SIZE 1024
 #define OUT_EXT ".stat" /* TODO: primeira submissão apenas */
 
+typedef enum {false, true} bool;
+
 #endif

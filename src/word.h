@@ -1,7 +1,7 @@
 #ifndef _WORD_H
 #define _WORD_H
 
-#include <stdbool.h>
+#include "const.h"
 
 #include "item.h"
 

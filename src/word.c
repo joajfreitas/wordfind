@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+#include "const.h"
 
 #include "err.h"
 #include "word.h"
