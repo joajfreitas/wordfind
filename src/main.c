@@ -17,13 +17,13 @@ void usage(char *nomeProg) {
 int main(int argc, char *argv[])
 {
 	Lists_Array *la;
-	FILE *fdic, *fpal;
+	FILE *fdic, *fpal, *fstat;
+	char *fstat_name;
 	int i;
 	char *test;
 	int *word_sizes;
 
-	/* Verificação dos parametros de entrada*/
-
+	/* Verificação dos parâmetros de entrada*/
 	if (argc != 3) {
 		usage(argv[0]);
 	}
@@ -40,6 +40,9 @@ int main(int argc, char *argv[])
 	/* Abrir ficheiros de entrada (efopen faz exit() em caso de erro) */
 	fdic = efopen(argv[1], "r");
 	fpal = efopen(argv[2], "r");
+	fstat_name = change_file_ext(argv[2], OUT_EXT, OUT_EXT_SIZE);
+	fstat = efopen(fstat_name, "w");
+	free(fstat_name);
 
 	/* Leitura de ficheiros de entrada */
 	word_sizes = find_word_sizes(fpal);
@@ -61,7 +64,7 @@ int main(int argc, char *argv[])
 	la_convert_to_array(la);
 
 	/* Ler e resolver problemas */
-	solve_pal(fpal, la);
+	solve_pal(fpal, fstat, la);
 	fclose(fpal);
 
 	/* Libertar memória */

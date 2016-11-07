@@ -41,17 +41,28 @@ void read_dic(FILE *fdic, Lists_Array *la)
 	free(buf);
 }
 
-void solve_pal(FILE *fpal, Lists_Array *la)
+char *change_file_ext(char *s, char *new_ext, size_t ext_size)
 {
+	char *file_name;
+	size_t file_name_size;
+	char *ext;
+
+	ext = strrchr(s, '.');
+	file_name_size = ext - s;
+
+	file_name = (char *) ecalloc(file_name_size + ext_size + 1, sizeof(char));
+
+	strncpy(file_name, s, file_name_size);
+	strcat(file_name, new_ext);
+
+	return file_name;
+}
+
+void solve_pal(FILE *fpal, FILE *fstat, Lists_Array *la)
+{
+	int challenge; /* TODO: maybe enum this */
 	char *word1 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
 	char *word2 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
-
-	int challenge;
-
-	FILE *fstat = NULL;
-
-	/* TODO: out filename */
-	fstat = efopen("dummy.stat", "w");
 
 	/* Verificar apenas por um novo problema (um por linha);
 	 * assume-se que o ficheiro está formatado corretamente,
