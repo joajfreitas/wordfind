@@ -1,7 +1,7 @@
 /* Singly linked list with dummy head node */
 #include <string.h>
-#include "const.h"
 
+#include "const.h"
 #include "err.h"
 #include "list.h"
 #include "word.h"
