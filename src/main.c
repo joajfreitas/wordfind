@@ -7,9 +7,12 @@
 #include "file.h"
 #include "word.h"
 
-const char *VALID_EXTS[] = {".dic", ".pal"};
+static const char *VALID_EXTS[] = {".dic", ".pal"};
 
-void usage(char *nomeProg) {
+void usage(char *nomeProg);
+
+void usage(char *nomeProg)
+{
 	fprintf(stderr, "Uso: %s [dicionário.dic] [problemas.pal]\n", nomeProg);
 	exit(EXIT_FAILURE);
 }

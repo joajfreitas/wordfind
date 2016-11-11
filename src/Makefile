@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-O3 -Wall -ansi
+CFLAGS=-O3 -Wall -ansi -pedantic -Wextra -Wunused-result
 
 wordmorph: main.o err.o list.o lists_array.o file.o word.o
 	$(CC) $(CFLAGS) -o wordmorph main.o err.o list.o lists_array.o file.o word.o

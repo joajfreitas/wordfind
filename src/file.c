@@ -68,8 +68,8 @@ void solve_pal(FILE *fpal, FILE *fstat, Lists_Array *la)
 	 * assume-se que o ficheiro está formatado corretamente,
 	 * por isso não se verificam os fscanf() dentro do ciclo. */
 	while (fscanf(fpal, "%s", word1) == 1) {
-		(void) fscanf(fpal, "%s", word2);
-		(void) fscanf(fpal, "%d", &challenge);
+		if (fscanf(fpal, "%s", word2)){}
+		if (fscanf(fpal, "%d", &challenge)){}
 
 		if (challenge == 1) {
 			fprintf(fstat, "%s %d\n", word1, la_get_sizes(la)[la_get_adjusted_index(la, strlen(word1))]);
