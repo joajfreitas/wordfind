@@ -60,6 +60,7 @@ char *change_file_ext(char *s, char *new_ext, size_t ext_size)
 
 void solve_pal(FILE *fpal, FILE *fstat, Lists_Array *la)
 {
+	int check = 0;
 	int challenge; /* TODO: maybe enum this */
 	char *word1 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
 	char *word2 = (char *) emalloc(MAX_WORD_SIZE * sizeof(char));
@@ -68,9 +69,14 @@ void solve_pal(FILE *fpal, FILE *fstat, Lists_Array *la)
 	 * assume-se que o ficheiro está formatado corretamente,
 	 * por isso não se verificam os fscanf() dentro do ciclo. */
 	while (fscanf(fpal, "%s", word1) == 1) {
-		if (fscanf(fpal, "%s", word2)){}
-		if (fscanf(fpal, "%d", &challenge)){}
-
+		check = fscanf(fpal, "%s", word2);
+		if (check != 1)
+			exit(EXIT_FAILURE);		
+		/*Verificar scanf*/
+		check = fscanf(fpal, "%d", &challenge);
+		if (check != 1)
+			exit(EXIT_FAILURE);
+		
 		if (challenge == 1) {
 			fprintf(fstat, "%s %d\n", word1, la_get_sizes(la)[la_get_adjusted_index(la, strlen(word1))]);
 		}
