@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-O3 -Wall -ansi
 
-wordmorph: main.o err.o list.o lists_array.o file.o word.o
-	$(CC) $(CFLAGS) -o wordmorph main.o err.o list.o lists_array.o file.o word.o
+wordfind: main.o err.o list.o lists_array.o file.o word.o
+	$(CC) $(CFLAGS) -o wordfind main.o err.o list.o lists_array.o file.o word.o
 	rm -f *.o  a.out *~
 
 main.o: main.c err.h const.h file.h word.h
@@ -24,4 +24,4 @@ word.o: word.c word.h err.h
 	$(CC) -c $(CFLAGS) word.c
 
 clean::
-	rm -f *.o core a.out *~ wordmorph
+	rm -f *.o core a.out *~ wordfind
